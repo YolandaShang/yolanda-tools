@@ -1,18 +1,29 @@
-import { B, yan } from './test';
+import { isPlainObject, mapKeys, mapValues } from 'lodash';
 
-import yan2 from './test';
+function mapKeysDeepLodash(obj, cb, isRecursive) {
+    if (!obj && !isRecursive) {
+        return {};
+    }
 
-console.log(yan);
-console.log(yan2);
+    if (!isRecursive) {
+        if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean') {
+            return {};
+        }
+    }
 
-const a = 1 + 1;
-const b = a;
-console.log(a);
-console.log(b);
-console.log(B);
+    if (Array.isArray(obj)) {
+        return obj.map(item => mapKeysDeepLodash(item, cb, true));
+    }
 
-export function greeter(person: string): string {
-    return 'Hello, ' + person;
+    if (!isPlainObject(obj)) {
+        return obj;
+    }
+
+    const result = mapKeys(obj, cb);
+
+    return mapValues(result, value =>
+        mapKeysDeepLodash(value, cb, true)
+    );
 }
 
-export const name = 'base';
+export default mapKeysDeepLodash;

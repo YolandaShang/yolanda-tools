@@ -22,4 +22,3 @@ mapKeysDeep({a: "b", c: "d", e: {c: "f", g: {c: "h"}}}, (value, key) => {
 //=> {a: "b", zzz: "d", e: {zzz: "f", g: {zzz: "h"}}}
 ```
 
-特殊说明，比如特殊情况下会报错等
